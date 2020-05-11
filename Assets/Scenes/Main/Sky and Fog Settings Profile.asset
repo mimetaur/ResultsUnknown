@@ -79,7 +79,7 @@ MonoBehaviour:
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 700
+    m_Value: 500
     min: 1
   enableVolumetricFog:
     m_OverrideState: 1
@@ -150,13 +150,13 @@ MonoBehaviour:
     max: 360
   skyIntensityMode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 12
   multiplier:
     m_OverrideState: 1
-    m_Value: 0.0007
+    m_Value: 2
     min: 0
   upperHemisphereLuxValue:
     m_OverrideState: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
     showEyeDropper: 1
   bottom:
     m_OverrideState: 1
-    m_Value: {r: 0.22696589, g: 0.20507877, b: 0.22696589, a: 1}
+    m_Value: {r: 0.21960784, g: 0.20392157, b: 0.21960784, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1

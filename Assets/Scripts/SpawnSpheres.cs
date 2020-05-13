@@ -8,6 +8,7 @@ public class SpawnSpheres : MonoBehaviour
     public GameObject sphere;
     public Transform parent;
     public float overallSize = 5.0f;
+    public float minSize = 1.0f;
     public float rate = 5.0f;
     public int maxSpheres = 11;
     private int numSpheres = 0;
@@ -19,10 +20,20 @@ public class SpawnSpheres : MonoBehaviour
 
     void SpawnSphere()
     {
-        if (numSpheres > maxSpheres) return;
+        if (numSpheres > maxSpheres)
+        {
+            return;
+
+        }
+        Vector3 randomVector = Random.insideUnitSphere * overallSize;
+        float dist = Vector3.Distance(parent.position, randomVector);
+        if (dist < minSize)
+        {
+            return;
+        }
 
         GameObject s = Instantiate(sphere);
-        s.transform.position = parent.position + (Random.insideUnitSphere * overallSize);
+        s.transform.position = parent.position + randomVector;
         s.transform.localScale = Vector3.zero;
 
         Rotate rotation = s.GetComponent<Rotate>();

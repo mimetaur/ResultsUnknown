@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 54146141343385452}
   - component: {fileID: 114665270426534250}
   - component: {fileID: 114842202690349366}
+  - component: {fileID: 8580870304940940340}
   m_Layer: 0
   m_Name: IcoSphere
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820e0ecc05e3e4992907ee90c98b78ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 53
+  angle: 0.45
   slowdownFactor: 0.1
   counterClockWise: 0
   usePhysicsRotation: 0
@@ -80,6 +81,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endAmount: 0.5
   length: 5
+--- !u!114 &8580870304940940340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5daadac737548a69450ee3291b96d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  angle: 0.25
 --- !u!1 &1362635308684298
 GameObject:
   m_ObjectHideFlags: 0

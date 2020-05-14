@@ -16,13 +16,19 @@ public class SpawnSpheres : MonoBehaviour
     public int maxSpheres = 11;
     public int maxAttemptsAtValidPosition = 5;
     public float paddingAboveFloor = 0.05f;
+    public float minRotationSpeed = 10.0f;
+    public float maxRotationSpeed = 40.0f;
+    public float minNewSphereSize = 0.5f;
+    public float maxNewSphereSize = 1.0f;
 
     private int numSpheres = 0;
     private Renderer sphereRenderer;
+    private ParentController parentController;
 
     void Start()
     {
         sphereRenderer = sphere.GetComponentInChildren<Renderer>();
+        parentController = parent.gameObject.GetComponent<ParentController>();
         InvokeRepeating("SpawnSphere", initialDelay, rate);
     }
 
@@ -37,13 +43,14 @@ public class SpawnSpheres : MonoBehaviour
         s.transform.localScale = Vector3.zero;
 
         Rotate rotation = s.GetComponent<Rotate>();
-        rotation.angle = Random.Range(30, 60);
+        rotation.angle = Random.Range(minRotationSpeed, maxRotationSpeed);
         rotation.counterClockWise |= Random.value > 0.5;
 
         ScaleIn scaleIn = s.GetComponent<ScaleIn>();
-        scaleIn.duration = Random.Range(0.5f, 10.0f);
+        scaleIn.endAmount = Random.Range(minNewSphereSize, maxNewSphereSize);
 
         numSpheres++;
+        parentController.StartGrowing();
     }
 
     private Vector3 GetValidSpawnPosition()

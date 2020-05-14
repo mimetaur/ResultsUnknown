@@ -41,7 +41,7 @@ public class SpawnSpheres : MonoBehaviour
         rotation.counterClockWise |= Random.value > 0.5;
 
         ScaleIn scaleIn = s.GetComponent<ScaleIn>();
-        scaleIn.length = Random.Range(0.5f, 10.0f);
+        scaleIn.duration = Random.Range(0.5f, 10.0f);
 
         numSpheres++;
     }

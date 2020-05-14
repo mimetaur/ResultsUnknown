@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endAmount: 0.5
-  length: 5
+  duration: 0.25
 --- !u!114 &8580870304940940340
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,8 +7,7 @@ public class ScaleIn : MonoBehaviour
     public float endAmount = 0.75f;
     public float duration = 2.0f;
 
-    private float t = 0.0f;
-
+    // private float t = 0.0f;
     private Vector3 easeStart = Vector3.zero;
     private Vector3 easeEnd;
 
@@ -16,16 +15,18 @@ public class ScaleIn : MonoBehaviour
     void Start()
     {
         easeEnd = new Vector3(endAmount, endAmount, endAmount);
+        transform.localScale = easeStart;
+        StartCoroutine("SpawnAndGrow");
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator SpawnAndGrow()
     {
-        t += Time.deltaTime;
-        if (t > duration) t = duration;
+        float easeSpeed = duration / 100.0f;
 
-        float percentage = t / duration;
-
-        transform.localScale = Mathfx.Berp(easeStart, easeEnd, percentage);
+        for (float perc = 0; perc <= 1f; perc += 0.01f)
+        {
+            transform.localScale = Mathfx.Berp(easeStart, easeEnd, perc);
+            yield return new WaitForSeconds(easeSpeed);
+        }
     }
 }

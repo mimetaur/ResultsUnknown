@@ -53,11 +53,6 @@ public class SphereManager : MonoBehaviour
         return (spawner.minRotateAroundSpeed, spawner.maxRotateAroundSpeed);
     }
 
-    private int GetActiveSphereIndex()
-    {
-        return spheres.FindIndex(s => s.IsActive());
-    }
-
     private SphereController GetActiveSphere()
     {
         return spheres.Find(s => s.IsActive());
@@ -68,9 +63,10 @@ public class SphereManager : MonoBehaviour
         s.Activate();
     }
 
-    private void DeactivateAllSpheres()
+    private void DeactivateActiveSphere()
     {
-        spheres.ForEach(s => s.Deactivate());
+        var s = GetActiveSphere();
+        s.Deactivate();
     }
 
     private void ChangeActiveSphere()
@@ -80,7 +76,7 @@ public class SphereManager : MonoBehaviour
 
         if (activeSphere != previousSphere)
         {
-            DeactivateAllSpheres();
+            DeactivateActiveSphere();
             ActivateSphere(activeSphere);
         }
     }

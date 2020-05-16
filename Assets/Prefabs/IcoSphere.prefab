@@ -165,7 +165,7 @@ MonoBehaviour:
   basePitch: 1
   pitchRangeDown: 0.5
   pitchRangeUp: 1
-  fadeInTime: 0.5
+  audioFadeDuration: 3
 --- !u!114 &5285977975338994979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eada55853e2342bfa0987f067f6e781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glowFadeDuration: 7
+  glowFadeDuration: 2
+  glowMax: 0.3
 --- !u!114 &114665270426534250
 MonoBehaviour:
   m_ObjectHideFlags: 0

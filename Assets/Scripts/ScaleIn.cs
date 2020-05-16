@@ -14,7 +14,7 @@ public class ScaleIn : MonoBehaviour
     {
         easeEnd = new Vector3(endAmount, endAmount, endAmount);
         transform.localScale = easeStart;
-        StartCoroutine("SpawnAndGrow");
+        StartCoroutine(SpawnAndGrow());
     }
 
     private IEnumerator SpawnAndGrow()

@@ -6,6 +6,7 @@ using UnityEngine;
 public class SphereController : MonoBehaviour
 {
     public float glowFadeDuration = 1.0f;
+    public float glowMax = 0.5f;
 
     private bool isActive = false;
     private SphereAudioController sphereAudioController;
@@ -14,7 +15,6 @@ public class SphereController : MonoBehaviour
     private ScaleIn scaleIn;
     private SphereManager sphereManager;
     private Material material;
-
 
     void Awake()
     {
@@ -35,16 +35,22 @@ public class SphereController : MonoBehaviour
 
     public void Activate()
     {
-        isActive = true;
-        sphereAudioController.Play();
-        material.SetFloat("_Glow_Intensity", 1f);
+        if (!IsActive())
+        {
+            sphereAudioController.Play();
+            StartCoroutine(FadeGlow(FadeDirection.Up));
+            isActive = true;
+        }
     }
 
     public void Deactivate()
     {
-        isActive = false;
-        sphereAudioController.Stop();
-        material.SetFloat("_Glow_Intensity", 0f);
+        if (IsActive())
+        {
+            StartCoroutine(FadeGlow(FadeDirection.Down));
+            sphereAudioController.Stop();
+            isActive = false;
+        }
     }
 
     public float GetSphereCountNormalized()
@@ -72,4 +78,35 @@ public class SphereController : MonoBehaviour
         return GameUtils.Map(rotateAround.angle, range.min, range.max, 0f, 1f);
     }
 
+    private IEnumerator FadeGlow(FadeDirection direction)
+    {
+        const int numFadeSteps = 100;
+        float stepAmount = 1f / numFadeSteps;
+
+        float easeSpeed = glowFadeDuration / numFadeSteps;
+        float easeStart = 0f;
+        float easeGoal = glowMax;
+
+        if (direction == FadeDirection.Down)
+        {
+            easeStart = glowMax;
+            easeGoal = 0f;
+        }
+
+        for (float pct = 0; pct <= 1f; pct += stepAmount)
+        {
+            float intensity;
+            if (direction == FadeDirection.Down)
+            {
+                intensity = Mathfx.Sinerp(easeStart, easeGoal, pct);
+            }
+            else
+            {
+                intensity = Mathfx.Coserp(easeStart, easeGoal, pct);
+            }
+
+            material.SetFloat("_Glow_Intensity", intensity);
+            yield return new WaitForSeconds(easeSpeed);
+        }
+    }
 }

@@ -10,12 +10,13 @@ public class SphereManager : MonoBehaviour
     public float minSphereSize = 0.5f;
     public float maxSphereSize = 1.0f;
     public int maxSpheres = 40;
+    public float sphereChangeSpeed = 10.0f;
 
     private Vector3 spawnPosition;
     private int numSpheres = 0;
 
     private SpawnSpheres spawnSpheres;
-    private GameObject sphere;
+    private GameObject spherePrefab;
     private Transform parent;
     private Transform floor;
     private Renderer sphereRenderer;
@@ -26,11 +27,12 @@ public class SphereManager : MonoBehaviour
     void Awake()
     {
         spawnSpheres = GetComponent<SpawnSpheres>();
-        sphere = spawnSpheres.sphere;
+        spherePrefab = spawnSpheres.sphere;
         parent = spawnSpheres.parent;
         floor = spawnSpheres.floor;
 
-        sphereRenderer = sphere.GetComponentInChildren<Renderer>();
+        sphereRenderer = spherePrefab.GetComponentInChildren<Renderer>();
+        InvokeRepeating("ChangeActiveSphere", sphereChangeSpeed, sphereChangeSpeed);
     }
 
     public float GetRandomRotation()
@@ -48,8 +50,57 @@ public class SphereManager : MonoBehaviour
         if (!CanSpawn()) return;
 
         SpawnPosition = parent.transform.position + GetValidSpawnPosition();
-        Instantiate(sphere);
+        GameObject s = Instantiate(spherePrefab);
         NumSpheres++;
+        if (NumSpheres == 1)
+        {
+            ActivateSphere(s);
+            SphereController sc = s.GetComponent<SphereController>();
+            sc.Activate();
+        }
+    }
+
+    private void ActivateSphere(GameObject s)
+    {
+        SphereController sc = s.GetComponent<SphereController>();
+        sc.Activate();
+    }
+
+    private void DeactivateAllSpheres(GameObject[] allSpheres)
+    {
+        foreach (GameObject sphere in allSpheres)
+        {
+            SphereController sc = sphere.GetComponent<SphereController>();
+            sc.Deactivate();
+        }
+    }
+
+    private GameObject GetActiveSphere()
+    {
+        GameObject activeSphere = null;
+        var allSpheres = GameObject.FindGameObjectsWithTag("ChildSphere");
+        foreach (GameObject sphere in allSpheres)
+        {
+            if (sphere.GetComponentInChildren<SphereController>().IsActiveSphere())
+            {
+                activeSphere = sphere;
+            }
+        }
+        return activeSphere;
+    }
+
+    private void ChangeActiveSphere()
+    {
+        var previousActiveSphere = GetActiveSphere();
+
+        var allSpheres = GameObject.FindGameObjectsWithTag("ChildSphere");
+        int index = Random.Range(0, allSpheres.Length);
+        GameObject activeSphere = allSpheres[index];
+        if (activeSphere && activeSphere != previousActiveSphere)
+        {
+            DeactivateAllSpheres(allSpheres);
+            ActivateSphere(activeSphere);
+        }
     }
 
     private bool CanSpawn()

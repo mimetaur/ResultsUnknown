@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8580870304940940340}
   m_Layer: 0
   m_Name: IcoSphere
-  m_TagString: Untagged
+  m_TagString: ChildSphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 2
   MinDistance: 1
-  MaxDistance: 100
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   basePitch: 1
   pitchRangeDown: 0.5
   pitchRangeUp: 1
+  fadeInTime: 0.5
 --- !u!114 &5285977975338994979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eada55853e2342bfa0987f067f6e781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  glowFadeDuration: 7
 --- !u!114 &114665270426534250
 MonoBehaviour:
   m_ObjectHideFlags: 0

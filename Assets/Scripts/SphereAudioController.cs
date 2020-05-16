@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource)), RequireComponent(typeof(RotateAround)), RequireComponent(typeof(SphereController))]
+[RequireComponent(typeof(AudioSource)), RequireComponent(typeof(SphereController))]
 public class SphereAudioController : MonoBehaviour
 {
     public float basePitch = 1.0f;
@@ -11,16 +11,30 @@ public class SphereAudioController : MonoBehaviour
 
     private SphereController sc;
     private AudioSource audioSource;
-    private RotateAround rotateAround;
 
-    void Start()
+    void Awake()
     {
         sc = GetComponent<SphereController>();
         audioSource = GetComponent<AudioSource>();
-        rotateAround = GetComponent<RotateAround>();
+    }
 
+    public void Play()
+    {
         audioSource.pitch = GameUtils.Map(sc.GetSphereRotationNormalized(), 0f, 1.0f, basePitch - pitchRangeDown, basePitch + pitchRangeUp);
 
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
+    }
+
+    public void Stop()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+
     }
 }

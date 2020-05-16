@@ -31,6 +31,7 @@ public class SphereManager : MonoBehaviour
     public void KillSphere(SphereController sp)
     {
         spheres.Remove(sp);
+        sp.gameObject.SetActive(false);
 
         Debug.Log("Number of spheres: " + spheres.Count);
     }
@@ -87,19 +88,23 @@ public class SphereManager : MonoBehaviour
 
     private void ChangeActiveSphere()
     {
-        var previousSphere = GetActiveSphere();
-        var activeSphere = spheres[Random.Range(0, spheres.Count)];
-        if (previousSphere)
+        if (spheres.Count > 1)
         {
-            if (activeSphere != previousSphere)
+            var previousSphere = GetActiveSphere();
+            var activeSphere = spheres[Random.Range(0, spheres.Count)];
+            if (previousSphere)
             {
-                DeactivateActiveSphere();
+                if (activeSphere != previousSphere)
+                {
+                    DeactivateActiveSphere();
+                    ActivateSphere(activeSphere);
+                }
+            }
+            else
+            {
                 ActivateSphere(activeSphere);
             }
         }
-        else
-        {
-            ActivateSphere(activeSphere);
-        }
+
     }
 }

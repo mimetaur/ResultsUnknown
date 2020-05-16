@@ -8,6 +8,7 @@ public class SphereController : MonoBehaviour
     public float glowFadeDuration = 1.0f;
     public float glowMax = 0.5f;
     public float shrinkFadeDuration = 3.0f;
+    public float shrinkAmount = 0.75f;
 
     private bool isDead = false;
     private bool isActive = false;
@@ -120,24 +121,31 @@ public class SphereController : MonoBehaviour
         sphereManager.KillSphere(this);
     }
 
-    private void DoNothingOnShrinkComplete()
+    private IEnumerator Shrink(System.Action onComplete)
     {
-        // do nothing
-    }
-
-
-    private IEnumerator Shrink(System.Action onComplete, float amount = 1f)
-    {
-        float easeSpeed = 0.5f / 100.0f;
+        float easeSpeed = shrinkFadeDuration / 100.0f;
         Vector3 easeStart = transform.localScale;
-        Vector3 easeGoal = transform.localScale - (transform.localScale * amount);
+        Vector3 easeGoal = Vector3.zero;
 
         for (float perc = 0; perc <= 1f; perc += 0.01f)
         {
-            transform.localScale = Mathfx.Coserp(easeStart, easeGoal, perc);
+            transform.localScale = Mathfx.Hermite(easeStart, easeGoal, perc);
             yield return new WaitForSeconds(easeSpeed);
         }
         onComplete();
+    }
+
+    private IEnumerator PartialShrink()
+    {
+        float easeSpeed = shrinkFadeDuration / 100.0f;
+        Vector3 easeStart = transform.localScale;
+        Vector3 easeGoal = transform.localScale * shrinkAmount;
+
+        for (float perc = 0; perc <= 1f; perc += 0.01f)
+        {
+            transform.localScale = Mathfx.Hermite(easeStart, easeGoal, perc);
+            yield return new WaitForSeconds(easeSpeed);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -149,7 +157,7 @@ public class SphereController : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Shrink(DoNothingOnShrinkComplete, 0.25f));
+            StartCoroutine(PartialShrink());
         }
 
     }

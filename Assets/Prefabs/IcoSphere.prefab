@@ -194,7 +194,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowFadeDuration: 2
   glowMax: 0.3
-  shrinkFadeDuration: 3
+  shrinkFadeDuration: 0.5
+  shrinkAmount: 0.9
 --- !u!114 &114665270426534250
 MonoBehaviour:
   m_ObjectHideFlags: 0

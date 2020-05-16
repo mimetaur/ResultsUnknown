@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4753365229298746}
   - component: {fileID: 54146141343385452}
+  - component: {fileID: 8836349361805644792}
   - component: {fileID: 522209193808810995}
   - component: {fileID: 2448273301907335685}
   - component: {fileID: 5285977975338994979}
@@ -54,6 +55,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &8836349361805644792
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &522209193808810995
 AudioSource:
   m_ObjectHideFlags: 0
@@ -180,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowFadeDuration: 2
   glowMax: 0.3
+  shrinkFadeDuration: 3
 --- !u!114 &114665270426534250
 MonoBehaviour:
   m_ObjectHideFlags: 0

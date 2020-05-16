@@ -7,7 +7,9 @@ public class SphereController : MonoBehaviour
 {
     public float glowFadeDuration = 1.0f;
     public float glowMax = 0.5f;
+    public float shrinkFadeDuration = 3.0f;
 
+    private bool isDead = false;
     private bool isActive = false;
     private SphereAudioController sphereAudioController;
     private Rotate rotate;
@@ -15,6 +17,8 @@ public class SphereController : MonoBehaviour
     private ScaleIn scaleIn;
     private SphereManager sphereManager;
     private Material material;
+
+    public bool IsDead { get => isDead; set => isDead = value; }
 
     void Awake()
     {
@@ -108,5 +112,45 @@ public class SphereController : MonoBehaviour
             material.SetFloat("_Glow_Intensity", intensity);
             yield return new WaitForSeconds(easeSpeed);
         }
+    }
+
+    private void KillOnShrinkComplete()
+    {
+        IsDead = true;
+        sphereManager.KillSphere(this);
+    }
+
+    private void DoNothingOnShrinkComplete()
+    {
+        // do nothing
+    }
+
+
+    private IEnumerator Shrink(System.Action onComplete, float amount = 1f)
+    {
+        float easeSpeed = 0.5f / 100.0f;
+        Vector3 easeStart = transform.localScale;
+        Vector3 easeGoal = transform.localScale - (transform.localScale * amount);
+
+        for (float perc = 0; perc <= 1f; perc += 0.01f)
+        {
+            transform.localScale = Mathfx.Coserp(easeStart, easeGoal, perc);
+            yield return new WaitForSeconds(easeSpeed);
+        }
+        onComplete();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "ParentSphere")
+        {
+            Deactivate();
+            StartCoroutine(Shrink(KillOnShrinkComplete));
+        }
+        else
+        {
+            StartCoroutine(Shrink(DoNothingOnShrinkComplete, 0.25f));
+        }
+
     }
 }

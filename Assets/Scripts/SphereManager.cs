@@ -28,6 +28,15 @@ public class SphereManager : MonoBehaviour
         Debug.Log("Number of spheres: " + spheres.Count);
     }
 
+    public void KillSphere(SphereController sp)
+    {
+        spheres.Remove(sp);
+
+        Debug.Log("Number of spheres: " + spheres.Count);
+    }
+
+
+
     public bool CanSpawn()
     {
         return spheres.Count < maxSpheres;
@@ -60,23 +69,36 @@ public class SphereManager : MonoBehaviour
 
     private void ActivateSphere(SphereController s)
     {
-        s.Activate();
+        if (s)
+        {
+            s.Activate();
+        }
     }
 
     private void DeactivateActiveSphere()
     {
         var s = GetActiveSphere();
-        s.Deactivate();
+        if (s)
+        {
+            s.Deactivate();
+        }
+
     }
 
     private void ChangeActiveSphere()
     {
         var previousSphere = GetActiveSphere();
         var activeSphere = spheres[Random.Range(0, spheres.Count)];
-
-        if (activeSphere != previousSphere)
+        if (previousSphere)
         {
-            DeactivateActiveSphere();
+            if (activeSphere != previousSphere)
+            {
+                DeactivateActiveSphere();
+                ActivateSphere(activeSphere);
+            }
+        }
+        else
+        {
             ActivateSphere(activeSphere);
         }
     }

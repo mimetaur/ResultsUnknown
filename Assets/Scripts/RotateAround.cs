@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class RotateAround : MonoBehaviour
 {
-
     public Transform target;
     public float angle;
 
-    // Use this for initialization
     void Start()
     {
         if (gameObject.tag == "ChildSphere" || target == null)
@@ -17,7 +15,6 @@ public class RotateAround : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.RotateAround(target.position, Vector3.up, angle);

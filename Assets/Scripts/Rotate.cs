@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Rotate : MonoBehaviour
 {
     [Range(0, 360)]
@@ -15,13 +16,11 @@ public class Rotate : MonoBehaviour
 
     private Rigidbody myRigidbody;
 
-    // Use this for initialization
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (myRigidbody.isKinematic)

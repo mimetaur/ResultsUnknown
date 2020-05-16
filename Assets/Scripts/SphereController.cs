@@ -11,7 +11,7 @@ public class SphereController : MonoBehaviour
     private ScaleIn scaleIn;
     private SphereManager sphereManager;
     private Material material;
-    private bool isActiveSphere = false;
+    private bool isActive = false;
 
     void Awake()
     {
@@ -26,9 +26,9 @@ public class SphereController : MonoBehaviour
         SetInitalValues();
     }
 
-    public bool IsActiveSphere()
+    public bool IsActive()
     {
-        return isActiveSphere;
+        return isActive;
     }
 
 
@@ -43,14 +43,14 @@ public class SphereController : MonoBehaviour
 
     public void Activate()
     {
-        isActiveSphere = true;
+        isActive = true;
         sphereAudioController.Play();
         material.SetFloat("_Glow_Intensity", 1f);
     }
 
     public void Deactivate()
     {
-        isActiveSphere = false;
+        isActive = false;
         sphereAudioController.Stop();
         material.SetFloat("_Glow_Intensity", 0f);
     }

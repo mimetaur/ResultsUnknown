@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Array = System.Array;
 using UnityEngine;
 
 [RequireComponent(typeof(SpawnSpheres))]
@@ -12,6 +13,7 @@ public class SphereManager : MonoBehaviour
     public int maxSpheres = 40;
     public float sphereChangeSpeed = 10.0f;
 
+    private List<SphereController> spheres = new List<SphereController>();
     private Vector3 spawnPosition;
     private int numSpheres = 0;
 
@@ -50,62 +52,47 @@ public class SphereManager : MonoBehaviour
         if (!CanSpawn()) return;
 
         SpawnPosition = parent.transform.position + GetValidSpawnPosition();
-        GameObject s = Instantiate(spherePrefab);
-        NumSpheres++;
-        if (NumSpheres == 1)
+        GameObject p = Instantiate(spherePrefab);
+        var s = p.GetComponent<SphereController>();
+        spheres.Add(s);
+
+        if (spheres.Count == 1)
         {
             ActivateSphere(s);
-            SphereController sc = s.GetComponent<SphereController>();
-            sc.Activate();
         }
+        Debug.Log("Number of spheres: " + spheres.Count);
     }
 
-    private void ActivateSphere(GameObject s)
+    private SphereController GetActiveSphere()
     {
-        SphereController sc = s.GetComponent<SphereController>();
-        sc.Activate();
+        return spheres.Find(s => s.IsActive());
     }
 
-    private void DeactivateAllSpheres(GameObject[] allSpheres)
+    private void ActivateSphere(SphereController s)
     {
-        foreach (GameObject sphere in allSpheres)
-        {
-            SphereController sc = sphere.GetComponent<SphereController>();
-            sc.Deactivate();
-        }
+        s.Activate();
     }
 
-    private GameObject GetActiveSphere()
+    private void DeactivateAllSpheres()
     {
-        GameObject activeSphere = null;
-        var allSpheres = GameObject.FindGameObjectsWithTag("ChildSphere");
-        foreach (GameObject sphere in allSpheres)
-        {
-            if (sphere.GetComponentInChildren<SphereController>().IsActiveSphere())
-            {
-                activeSphere = sphere;
-            }
-        }
-        return activeSphere;
+        spheres.ForEach(s => s.Deactivate());
     }
 
     private void ChangeActiveSphere()
     {
         var previousActiveSphere = GetActiveSphere();
-
-        var allSpheres = GameObject.FindGameObjectsWithTag("ChildSphere");
-        int index = Random.Range(0, allSpheres.Length);
-        GameObject activeSphere = allSpheres[index];
+        int index = Random.Range(0, spheres.Count);
+        var activeSphere = spheres[index];
         if (activeSphere && activeSphere != previousActiveSphere)
         {
-            DeactivateAllSpheres(allSpheres);
+            DeactivateAllSpheres();
             ActivateSphere(activeSphere);
         }
     }
 
     private bool CanSpawn()
     {
-        return NumSpheres < maxSpheres;
+        return spheres.Count < maxSpheres;
     }
 
     private bool CheckValidPosition(Vector3 pos)

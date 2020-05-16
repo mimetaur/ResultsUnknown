@@ -20,7 +20,7 @@ public class SphereAudioController : MonoBehaviour
 
     public void Play()
     {
-        audioSource.pitch = GameUtils.Map(sc.GetSphereRotationNormalized(), 0f, 1.0f, basePitch - pitchRangeDown, basePitch + pitchRangeUp);
+        audioSource.pitch = GameUtils.Map(sc.GetSphereRotateAroundSpeedNormalized(), 0f, 1.0f, basePitch - pitchRangeDown, basePitch + pitchRangeUp);
 
         if (!audioSource.isPlaying)
         {

@@ -18,6 +18,13 @@ public static class GameUtils
         );
     }
 
+    public static int Clamp(this int from, int min, int max)
+    {
+        if (from < min) from = min;
+        if (from > max) from = max;
+        return from;
+    }
+
     public static float Map(this float from, float fromMin, float fromMax, float toMin, float toMax)
     {
         var fromAbs = from - fromMin;

@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereAudioController)), RequireComponent(typeof(Rotate)), RequireComponent(typeof(ScaleIn))]
+[RequireComponent(typeof(SphereAudioController)), RequireComponent(typeof(Rotate)), RequireComponent(typeof(RotateAround)), RequireComponent(typeof(ScaleIn))]
 public class SphereController : MonoBehaviour
 {
     public float glowFadeDuration = 1.0f;
+
+    private bool isActive = false;
     private SphereAudioController sphereAudioController;
     private Rotate rotate;
+    private RotateAround rotateAround;
     private ScaleIn scaleIn;
     private SphereManager sphereManager;
     private Material material;
-    private bool isActive = false;
+
 
     void Awake()
     {
@@ -19,26 +22,15 @@ public class SphereController : MonoBehaviour
         sphereAudioController = GetComponent<SphereAudioController>();
         rotate = GetComponent<Rotate>();
         scaleIn = GetComponent<ScaleIn>();
+        rotateAround = GetComponent<RotateAround>();
 
         var meshRenderer = GetComponentInChildren<MeshRenderer>();
         material = meshRenderer.material;
-
-        SetInitalValues();
     }
 
     public bool IsActive()
     {
         return isActive;
-    }
-
-
-    private void SetInitalValues()
-    {
-        transform.position = sphereManager.SpawnPosition;
-        transform.localScale = Vector3.zero;
-        rotate.angle = sphereManager.GetRandomRotation();
-        rotate.counterClockWise |= Random.value > 0.5f;
-        scaleIn.endAmount = sphereManager.GetRandomScale();
     }
 
     public void Activate()
@@ -57,18 +49,27 @@ public class SphereController : MonoBehaviour
 
     public float GetSphereCountNormalized()
     {
-        return GameUtils.Map(sphereManager.NumSpheres, 0, sphereManager.maxSpheres, 0f, 1f);
+        var range = sphereManager.GetSphereCountRange();
+        return GameUtils.Map(range.count, 0, range.max, 0f, 1f);
     }
 
     public float GetSphereRotationNormalized()
     {
-        return GameUtils.Map(rotate.angle, sphereManager.minRotationSpeed, sphereManager.maxRotationSpeed, 0f, 1f);
+        var range = sphereManager.GetSphereRotationSpeedRange();
+        return GameUtils.Map(rotate.angle, range.min, range.max, 0f, 1f);
     }
 
     public float GetSphereSizeNormalized()
     {
+        var range = sphereManager.GetSphereSizeRange();
         var scale = transform.localScale.y;
-        return GameUtils.Map(scale, 0f, 1f, sphereManager.minSphereSize, sphereManager.maxSphereSize);
+        return GameUtils.Map(scale, range.min, range.max, 0f, 1f);
+    }
+
+    public float GetSphereRotateAroundSpeedNormalized()
+    {
+        var range = sphereManager.GetSphereRotateAroundSpeedRange();
+        return GameUtils.Map(rotateAround.angle, range.min, range.max, 0f, 1f);
     }
 
 }

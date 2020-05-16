@@ -5,54 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(SpawnSpheres))]
 public class SphereManager : MonoBehaviour
 {
-    public float minRotationSpeed = 10.0f;
-    public float maxRotationSpeed = 40.0f;
-    public float minSphereSize = 0.5f;
-    public float maxSphereSize = 1.0f;
     public int maxSpheres = 40;
     public float sphereChangeSpeed = 10.0f;
-
     private List<SphereController> spheres = new List<SphereController>();
-    private Vector3 spawnPosition;
-    private int numSpheres = 0;
-
-    private SpawnSpheres spawnSpheres;
-    private GameObject spherePrefab;
-    private Transform parent;
-    private Transform floor;
-    private Renderer sphereRenderer;
-
-    public Vector3 SpawnPosition { get => spawnPosition; set => spawnPosition = value; }
-    public int NumSpheres { get => numSpheres; set => numSpheres = value; }
+    private SpawnSpheres spawner;
 
     void Awake()
     {
-        spawnSpheres = GetComponent<SpawnSpheres>();
-        spherePrefab = spawnSpheres.sphere;
-        parent = spawnSpheres.parent;
-        floor = spawnSpheres.floor;
-
-        sphereRenderer = spherePrefab.GetComponentInChildren<Renderer>();
+        spawner = GetComponent<SpawnSpheres>();
         InvokeRepeating("ChangeActiveSphere", sphereChangeSpeed, sphereChangeSpeed);
     }
 
-    public float GetRandomRotation()
+    public void AddSphere(GameObject newSphere)
     {
-        return Random.Range(minRotationSpeed, maxRotationSpeed);
-    }
-
-    public float GetRandomScale()
-    {
-        return Random.Range(minSphereSize, maxSphereSize);
-    }
-
-    public void Spawn()
-    {
-        if (!CanSpawn()) return;
-
-        SpawnPosition = parent.transform.position + GetValidSpawnPosition();
-        GameObject p = Instantiate(spherePrefab);
-        var s = p.GetComponent<SphereController>();
+        var s = newSphere.GetComponent<SphereController>();
         spheres.Add(s);
 
         if (spheres.Count == 1)
@@ -60,6 +26,36 @@ public class SphereManager : MonoBehaviour
             ActivateSphere(s);
         }
         Debug.Log("Number of spheres: " + spheres.Count);
+    }
+
+    public bool CanSpawn()
+    {
+        return spheres.Count < maxSpheres;
+    }
+
+    public (int count, int max) GetSphereCountRange()
+    {
+        return (spheres.Count, maxSpheres);
+    }
+
+    public (float min, float max) GetSphereRotationSpeedRange()
+    {
+        return (spawner.minRotationSpeed, spawner.maxRotationSpeed);
+    }
+
+    public (float min, float max) GetSphereSizeRange()
+    {
+        return (spawner.minSphereSize, spawner.maxSphereSize);
+    }
+
+    public (float min, float max) GetSphereRotateAroundSpeedRange()
+    {
+        return (spawner.minRotateAroundSpeed, spawner.maxRotateAroundSpeed);
+    }
+
+    private int GetActiveSphereIndex()
+    {
+        return spheres.FindIndex(s => s.IsActive());
     }
 
     private SphereController GetActiveSphere()
@@ -79,42 +75,13 @@ public class SphereManager : MonoBehaviour
 
     private void ChangeActiveSphere()
     {
-        var previousActiveSphere = GetActiveSphere();
-        int index = Random.Range(0, spheres.Count);
-        var activeSphere = spheres[index];
-        if (activeSphere && activeSphere != previousActiveSphere)
+        var previousSphere = GetActiveSphere();
+        var activeSphere = spheres[Random.Range(0, spheres.Count)];
+
+        if (activeSphere != previousSphere)
         {
             DeactivateAllSpheres();
             ActivateSphere(activeSphere);
         }
-    }
-
-    private bool CanSpawn()
-    {
-        return spheres.Count < maxSpheres;
-    }
-
-    private bool CheckValidPosition(Vector3 pos)
-    {
-        bool greaterThanMinDistance = Vector3.Distance(parent.position, pos) > spawnSpheres.proximityToParentThreshold;
-        bool aboveFloor = pos.y > (floor.position.y + sphereRenderer.bounds.size.y + spawnSpheres.paddingAboveFloor);
-        return greaterThanMinDistance && aboveFloor;
-    }
-
-    private Vector3 GetValidSpawnPosition()
-    {
-        bool isValidPosition = false;
-        Vector3 validPosition = new Vector3();
-
-        while (!isValidPosition)
-        {
-            Vector3 randomVector = Random.insideUnitSphere * spawnSpheres.spawnAreaSize;
-            isValidPosition = CheckValidPosition(randomVector);
-            if (isValidPosition)
-            {
-                validPosition = randomVector;
-            }
-        }
-        return validPosition;
     }
 }

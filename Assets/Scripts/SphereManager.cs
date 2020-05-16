@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Array = System.Array;
 using UnityEngine;
 
 [RequireComponent(typeof(SpawnSpheres))]

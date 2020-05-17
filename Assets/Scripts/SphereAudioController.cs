@@ -20,13 +20,24 @@ public class SphereAudioController : MonoBehaviour
     {
         source.volume = 1f;
         chuck.RunCode(@"
-			TriOsc spatialOsc => dac;
-			while( true )
-			{
-				Math.random2f( 300, 1000 ) => spatialOsc.freq;
-				50::ms => now;
-			}
-		");
+            SndBuf textureBuf => dac;
+            me.dir() + ""texture01.wav"" => textureBuf.read;
+
+            // start at the beginning of the clip
+            0 => textureBuf.pos;
+
+            // pass time so that the file plays
+            textureBuf.length() / textureBuf.rate() => now;
+        ");
+
+        // chuck.RunCode(@"
+        // 	TriOsc spatialOsc => dac;
+        // 	while( true )
+        // 	{
+        // 		Math.random2f( 300, 1000 ) => spatialOsc.freq;
+        // 		50::ms => now;
+        // 	}
+        // ");
     }
 
     public void Stop()

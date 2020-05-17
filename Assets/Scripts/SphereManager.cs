@@ -27,15 +27,12 @@ public class SphereManager : MonoBehaviour
         {
             ActivateSphere(s);
         }
-        Debug.Log("Number of spheres: " + spheres.Count);
     }
 
     public void KillSphere(SphereController sp)
     {
         spheres.Remove(sp);
         sp.gameObject.SetActive(false);
-
-        Debug.Log("Number of spheres: " + spheres.Count);
     }
 
     public GameObject GetParentSphere()

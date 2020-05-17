@@ -13,6 +13,10 @@ public class SphereAudioController : MonoBehaviour
     public float rateRangeDown = 0.5f;
     public float rateRangeUp = 1.0f;
     public float audioFadeDuration = 3.0f;
+    public float maxAudioFilePos = 0.5f;
+    public float minAudioFileGain = 0.7f;
+    public float maxAudioFileGain = 1.0f;
+    public bool doLoopAudioFile = true;
 
     private float minVolume = 0f;
     private float maxVolume = 1f;
@@ -30,21 +34,30 @@ public class SphereAudioController : MonoBehaviour
         float rate = GameUtils.Map(sc.GetSphereRotateAroundSpeedNormalized(), 0f, 1f, baseRate - rateRangeDown, baseRate + rateRangeUp);
 
         // gain of the audio file playback is driven by the size of the sphere
-        float gain = GameUtils.Map(sc.GetSphereSizeNormalized(), 0f, 1f, 0.5f, 1.0f);
+        float gain = GameUtils.Map(sc.GetSphereSizeNormalized(), 0f, 1f, minAudioFileGain, maxAudioFileGain);
 
         chuck.SetRunning(true);
         chuck.RunCode(string.Format(@"
                 SndBuf textureBuf => dac;
                 me.dir() + ""texture01.wav"" => textureBuf.read;
 
-                // start at the beginning of the clip
-                0 => textureBuf.pos;
+                // loop the clip
+                // based on casting doLoopAudioFile
+                // {3} => textureBuf.loop;
 
+                // start randomly offset into the clip
+                textureBuf.samples() * {2} $ int => int offset;
+                Math.random2(0, offset) => textureBuf.pos;
+
+                // change playback speed
                 {0} => textureBuf.rate;
+
+                // change amplitude
+                {1} => textureBuf.gain;
 
                 // pass time so that the file plays
                 textureBuf.length() / textureBuf.rate() => now;
-            ", rate, gain));
+            ", rate, gain, maxAudioFilePos, System.Convert.ToInt32(doLoopAudioFile)));
         StartCoroutine(FadeAudio(FadeDirection.Up, DoNothingOnComplete));
     }
 

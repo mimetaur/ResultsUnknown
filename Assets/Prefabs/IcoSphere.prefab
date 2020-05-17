@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 4753365229298746}
   - component: {fileID: 54146141343385452}
   - component: {fileID: 8836349361805644792}
-  - component: {fileID: 522209193808810995}
-  - component: {fileID: 2448273301907335685}
   - component: {fileID: 5285977975338994979}
+  - component: {fileID: 2448273301907335685}
   - component: {fileID: 114665270426534250}
   - component: {fileID: 114842202690349366}
   - component: {fileID: 8580870304940940340}
+  - component: {fileID: 908671575630005002}
+  - component: {fileID: 8012089072743074196}
   m_Layer: 0
   m_Name: IcoSphere
   m_TagString: ChildSphere
@@ -68,7 +69,79 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!82 &522209193808810995
+--- !u!114 &5285977975338994979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eada55853e2342bfa0987f067f6e781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowFadeDuration: 2
+  glowMax: 0.3
+  shrinkFadeDuration: 0.5
+  shrinkAmount: 0.9
+--- !u!114 &2448273301907335685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582a53b796f554f12ac0741ea8c3b3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114665270426534250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820e0ecc05e3e4992907ee90c98b78ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 0.45
+  slowdownFactor: 0.1
+  counterClockWise: 0
+  usePhysicsRotation: 0
+--- !u!114 &114842202690349366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30b171d75c97445f0a76a23b3b772cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endAmount: 0.5
+  duration: 0.4
+--- !u!114 &8580870304940940340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181270580162516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5daadac737548a69450ee3291b96d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  angle: 0.15
+--- !u!82 &908671575630005002
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,7 +151,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3f3bc0436b5ad4d688c1643eb1c5d94c, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -87,9 +160,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 2
+  DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -139,7 +212,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.7111111
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -164,7 +237,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2448273301907335685
+--- !u!114 &8012089072743074196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,73 +246,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1181270580162516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 582a53b796f554f12ac0741ea8c3b3b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b409d6d9706b41988cd9e32bd055751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basePitch: 1
-  pitchRangeDown: 0.5
-  pitchRangeUp: 1
-  audioFadeDuration: 3
---- !u!114 &5285977975338994979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181270580162516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eada55853e2342bfa0987f067f6e781, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  glowFadeDuration: 2
-  glowMax: 0.3
-  shrinkFadeDuration: 0.5
-  shrinkAmount: 0.9
---- !u!114 &114665270426534250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181270580162516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 820e0ecc05e3e4992907ee90c98b78ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  angle: 0.45
-  slowdownFactor: 0.1
-  counterClockWise: 0
-  usePhysicsRotation: 0
---- !u!114 &114842202690349366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181270580162516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b171d75c97445f0a76a23b3b772cfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endAmount: 0.5
-  duration: 0.4
---- !u!114 &8580870304940940340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181270580162516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe5daadac737548a69450ee3291b96d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  angle: 0.15
+  chuckMainInstance: {fileID: 2691583804664727654, guid: bc8ccd63b823d4b5ab8d828e9f0934f6,
+    type: 3}
+  spatialize: 1
+  persistToNextScene: 0
 --- !u!1 &1362635308684298
 GameObject:
   m_ObjectHideFlags: 0

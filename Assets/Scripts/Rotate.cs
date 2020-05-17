@@ -13,8 +13,11 @@ public class Rotate : MonoBehaviour
 
     public bool counterClockWise = false;
     public bool usePhysicsRotation = true;
+    private bool active = true;
 
     private Rigidbody myRigidbody;
+
+    public bool Active { get => active; set => active = value; }
 
     void Start()
     {
@@ -23,6 +26,7 @@ public class Rotate : MonoBehaviour
 
     void Update()
     {
+        if (!Active) return;
         if (myRigidbody.isKinematic)
         {
             DoRotation();

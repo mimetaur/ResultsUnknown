@@ -25,10 +25,12 @@ public class SpawnSpheres : MonoBehaviour
     private SphereManager sphereManager;
     private ParentController parent;
 
+    public ParentController Parent { get => parent; set => parent = value; }
+
     void Start()
     {
         sphereManager = GetComponent<SphereManager>();
-        parent = parentSphere.gameObject.GetComponent<ParentController>();
+        Parent = parentSphere.gameObject.GetComponent<ParentController>();
         InvokeRepeating("Spawn", initialDelay, rate);
     }
 
@@ -52,7 +54,7 @@ public class SpawnSpheres : MonoBehaviour
             rotateAround.angle = GetRandomRotateAroundSpeed();
 
             sphereManager.AddSphere(newSphere);
-            parent.StartGrowing();
+            Parent.StartGrowing();
         }
     }
 

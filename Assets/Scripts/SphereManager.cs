@@ -7,11 +7,13 @@ public class SphereManager : MonoBehaviour
 {
     public int maxSpheres = 40;
     public float sphereChangeSpeed = 10.0f;
+    public float gravityAmount = -0.1f;
     private List<SphereController> spheres = new List<SphereController>();
     private SpawnSpheres spawner;
 
     void Awake()
     {
+        Physics.gravity = new Vector3(0, gravityAmount, 0);
         spawner = GetComponent<SpawnSpheres>();
         InvokeRepeating("ChangeActiveSphere", sphereChangeSpeed, sphereChangeSpeed);
     }
@@ -36,6 +38,10 @@ public class SphereManager : MonoBehaviour
         Debug.Log("Number of spheres: " + spheres.Count);
     }
 
+    public GameObject GetParentSphere()
+    {
+        return spawner.Parent.gameObject;
+    }
 
 
     public bool CanSpawn()
@@ -94,7 +100,7 @@ public class SphereManager : MonoBehaviour
             var activeSphere = spheres[Random.Range(0, spheres.Count)];
             if (previousSphere)
             {
-                if (activeSphere != previousSphere)
+                if (activeSphere != previousSphere && !activeSphere.HasTouchedFloor)
                 {
                     DeactivateActiveSphere();
                     ActivateSphere(activeSphere);
@@ -102,7 +108,11 @@ public class SphereManager : MonoBehaviour
             }
             else
             {
-                ActivateSphere(activeSphere);
+                if (!activeSphere.HasTouchedFloor)
+                {
+                    ActivateSphere(activeSphere);
+                }
+
             }
         }
 

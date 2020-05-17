@@ -8,6 +8,9 @@ public class SphereAudioController : MonoBehaviour
     private SphereController sc;
     private ChuckSubInstance chuck;
     private AudioSource source;
+    private AudioSource collideSource;
+
+    public AudioClip[] collisionDrumHits;
 
     public float baseRate = 1.0f;
     public float rateRangeDown = 0.5f;
@@ -17,6 +20,8 @@ public class SphereAudioController : MonoBehaviour
     public float minAudioFileGain = 0.7f;
     public float maxAudioFileGain = 1.0f;
     public bool doLoopAudioFile = true;
+    public float minDrumVolume = 0.1f;
+    public float maxDrumVolume = 0.3f;
 
     private float minVolume = 0f;
     private float maxVolume = 1f;
@@ -26,6 +31,15 @@ public class SphereAudioController : MonoBehaviour
         sc = GetComponent<SphereController>();
         chuck = GetComponent<ChuckSubInstance>();
         source = GetComponent<AudioSource>();
+        collideSource = transform.Find("CollisionAudioSource").GetComponent<AudioSource>();
+    }
+
+    public void PlayCollideSound()
+    {
+        Debug.Log("playing collide sound");
+        var clip = collisionDrumHits[Random.Range(0, collisionDrumHits.Length)];
+        var vol = Random.Range(minDrumVolume, maxDrumVolume);
+        collideSource.PlayOneShot(clip, vol);
     }
 
     public void Play()
@@ -63,7 +77,6 @@ public class SphereAudioController : MonoBehaviour
 
     public void Stop()
     {
-
         StartCoroutine(FadeAudio(FadeDirection.Down, StopAudioOnComplete));
     }
 

@@ -202,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: d5ec3dc1219794dec8a6973873c6377e, type: 2}
   m_StaticLightingSkyUniqueID: 1
-  m_SkySettings: {fileID: 1781957433}
+  m_SkySettings: {fileID: 1895739235}
   m_SkySettingsFromProfile: {fileID: 2583955988447677026, guid: d5ec3dc1219794dec8a6973873c6377e,
     type: 2}
 --- !u!4 &605122029
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 723877095}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -643,7 +643,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75d3af32d2114e238d708797db54b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growAmount: 0.05
+  growAmount: 0.075
   growDuration: 3
 --- !u!135 &1055257354
 SphereCollider:
@@ -669,7 +669,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055257348}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.4
@@ -711,14 +711,14 @@ MonoBehaviour:
   floor: {fileID: 723877098}
   minRotationSpeed: 10
   maxRotationSpeed: 40
-  minSphereSize: 0.6
-  maxSphereSize: 1.2
-  minRotateAroundSpeed: 0.02
-  maxRotateAroundSpeed: 0.35
-  spawnAreaSize: 5
-  proximityToParentThreshold: 1.5
+  minSphereSize: 0.25
+  maxSphereSize: 0.75
+  minRotateAroundSpeed: 0.2
+  maxRotateAroundSpeed: 0.7
+  spawnAreaSize: 6
+  proximityToParentThreshold: 2
   initialDelay: 2
-  rate: 5
+  rate: 7
   paddingAboveFloor: 0.05
 --- !u!4 &1148541212
 Transform:
@@ -759,7 +759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpheres: 40
-  sphereChangeSpeed: 7.5
+  sphereChangeSpeed: 8
+  gravityAmount: -0.004
 --- !u!1 &1230003513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1275,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &1781957433
+--- !u!114 &1895739235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

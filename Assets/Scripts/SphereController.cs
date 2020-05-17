@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereAudioController)), RequireComponent(typeof(Rotate)), RequireComponent(typeof(RotateAround)), RequireComponent(typeof(ScaleIn))]
+[RequireComponent(typeof(SphereAudioController)), RequireComponent(typeof(Rotate)), RequireComponent(typeof(RotateAround)), RequireComponent(typeof(ScaleIn)), RequireComponent(typeof(Rigidbody))]
 public class SphereController : MonoBehaviour
 {
     public float glowFadeDuration = 1.0f;
@@ -11,7 +11,10 @@ public class SphereController : MonoBehaviour
 
     private bool isDead = false;
     private bool isActive = false;
+    private bool hasCollided = false;
+    private bool hasTouchedFloor = false;
     private SphereAudioController sphereAudioController;
+    private Rigidbody rb;
     private Rotate rotate;
     private RotateAround rotateAround;
     private ScaleIn scaleIn;
@@ -19,17 +22,25 @@ public class SphereController : MonoBehaviour
     private Material material;
 
     public bool IsDead { get => isDead; set => isDead = value; }
+    public bool HasTouchedFloor { get => hasTouchedFloor; set => hasTouchedFloor = value; }
+    public bool HasCollided { get => hasCollided; set => hasCollided = value; }
 
     void Awake()
     {
         sphereManager = GameObject.Find("GameManager").GetComponent<SphereManager>();
         sphereAudioController = GetComponent<SphereAudioController>();
+        rb = GetComponent<Rigidbody>();
         rotate = GetComponent<Rotate>();
         scaleIn = GetComponent<ScaleIn>();
         rotateAround = GetComponent<RotateAround>();
 
         var meshRenderer = GetComponentInChildren<MeshRenderer>();
         material = meshRenderer.material;
+    }
+
+    public GameObject GetParentSphere()
+    {
+        return sphereManager.GetParentSphere();
     }
 
     public bool IsActive()
@@ -128,7 +139,7 @@ public class SphereController : MonoBehaviour
 
         for (float perc = 0; perc <= 1f; perc += 0.01f)
         {
-            transform.localScale = Mathfx.Hermite(easeStart, easeGoal, perc);
+            transform.localScale = Mathfx.Coserp(easeStart, easeGoal, perc);
             yield return new WaitForSeconds(easeSpeed);
         }
         onComplete();
@@ -136,10 +147,38 @@ public class SphereController : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "ParentSphere")
+        if (col.gameObject.tag == "Floor")
         {
+            rotate.Active = false;
+            rotateAround.IsActive = false;
+            HasCollided = true;
+            Deactivate();
+
+            if (!HasTouchedFloor)
+            {
+                sphereAudioController.PlayCollideSound();
+            }
+            HasTouchedFloor = true;
+        }
+        else
+        {
+            // if (!HasCollided)
+            // {
+            //     sphereAudioController.PlayCollideSound();
+            // }
+            // HasCollided = true;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "ParentSphere")
+        {
+            rotate.Active = false;
+            rotateAround.IsActive = false;
             Deactivate();
             StartCoroutine(Shrink(KillOnShrinkComplete));
         }
+        HasCollided = true;
     }
 }

@@ -13,8 +13,8 @@ public class SpawnSpheres : MonoBehaviour
     public float maxRotationSpeed = 40.0f;
     public float minSphereSize = 0.5f;
     public float maxSphereSize = 1.0f;
-    public float minRotateAroundSpeed = 0.1f;
-    public float maxRotateAroundSpeed = 1f;
+    public float minRotateAroundSpeed = 0.5f;
+    public float maxRotateAroundSpeed = 2f;
 
     public float spawnAreaSize = 5.0f;
     public float proximityToParentThreshold = 1.0f;

@@ -8,7 +8,6 @@ public class SphereController : MonoBehaviour
     public float glowFadeDuration = 1.0f;
     public float glowMax = 0.5f;
     public float shrinkFadeDuration = 3.0f;
-    public float shrinkAmount = 0.75f;
 
     private bool isDead = false;
     private bool isActive = false;
@@ -135,30 +134,12 @@ public class SphereController : MonoBehaviour
         onComplete();
     }
 
-    private IEnumerator PartialShrink()
+    void OnCollisionEnter(Collision col)
     {
-        float easeSpeed = shrinkFadeDuration / 100.0f;
-        Vector3 easeStart = transform.localScale;
-        Vector3 easeGoal = transform.localScale * shrinkAmount;
-
-        for (float perc = 0; perc <= 1f; perc += 0.01f)
-        {
-            transform.localScale = Mathfx.Hermite(easeStart, easeGoal, perc);
-            yield return new WaitForSeconds(easeSpeed);
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "ParentSphere")
+        if (col.gameObject.tag == "ParentSphere")
         {
             Deactivate();
             StartCoroutine(Shrink(KillOnShrinkComplete));
         }
-        else
-        {
-            StartCoroutine(PartialShrink());
-        }
-
     }
 }

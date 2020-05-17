@@ -9,7 +9,7 @@ public class Rotate : MonoBehaviour
     public float angle;
 
     [Range(0, 1.0f)]
-    public float slowdownFactor = 0.1f;
+    public float slowdownFactor = 5f;
 
     public bool counterClockWise = false;
     public bool usePhysicsRotation = true;

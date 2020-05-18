@@ -160,13 +160,14 @@ public class SphereController : MonoBehaviour
             }
             HasTouchedFloor = true;
         }
-        else
+        else if (col.gameObject.tag == "ChildSphere")
         {
-            // if (!HasCollided)
-            // {
-            //     sphereAudioController.PlayCollideSound();
-            // }
-            // HasCollided = true;
+            if (IsActive())
+            {
+                var newActiveSphere = col.gameObject.GetComponent<SphereController>();
+                sphereManager.ChangeActiveSphereTo(newActiveSphere);
+            }
+            HasCollided = true;
         }
     }
 

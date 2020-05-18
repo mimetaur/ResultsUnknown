@@ -12,13 +12,11 @@ public class SphereManager : MonoBehaviour
     public float maxTimeUntilChangeActive = 10f;
     private List<SphereController> spheres = new List<SphereController>();
     private SpawnSpheres spawner;
-    private float timeUntilChangeActive = 5f;
 
     void Awake()
     {
         Physics.gravity = new Vector3(0, gravityAmount, 0);
         spawner = GetComponent<SpawnSpheres>();
-        // InvokeRepeating("ChangeActiveSphere", sphereChangeSpeed, sphereChangeSpeed);
     }
 
     public void AddSphere(GameObject newSphere)
@@ -30,7 +28,7 @@ public class SphereManager : MonoBehaviour
         {
             ActivateSphere(s);
         }
-        timeUntilChangeActive = Random.Range(minTimeUntilChangeActive, maxTimeUntilChangeActive);
+        float timeUntilChangeActive = Random.Range(minTimeUntilChangeActive, maxTimeUntilChangeActive);
         Invoke("ChangeActiveSphere", timeUntilChangeActive);
     }
 
@@ -117,6 +115,14 @@ public class SphereManager : MonoBehaviour
 
             }
         }
+    }
 
+    public void ChangeActiveSphereTo(SphereController newActiveSphere)
+    {
+        DeactivateActiveSphere();
+        ActivateSphere(newActiveSphere);
+        CancelInvoke("ChangeActiveSphere");
+        float timeUntilChangeActive = Random.Range(minTimeUntilChangeActive, maxTimeUntilChangeActive);
+        Invoke("ChangeActiveSphere", timeUntilChangeActive);
     }
 }

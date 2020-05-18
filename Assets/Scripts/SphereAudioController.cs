@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(SphereController)), RequireComponent(typeof(ChuckSubInstance)), RequireComponent(typeof(AudioSource))]
 public class SphereAudioController : MonoBehaviour
@@ -11,6 +12,7 @@ public class SphereAudioController : MonoBehaviour
     private AudioSource collideSource;
 
     public AudioClip[] collisionDrumHits;
+    public AudioClip textureClip;
 
     public float baseRate = 1.0f;
     public float rateRangeDown = 0.5f;
@@ -28,6 +30,7 @@ public class SphereAudioController : MonoBehaviour
 
     void Awake()
     {
+        Assert.IsNotNull(textureClip);
         sc = GetComponent<SphereController>();
         chuck = GetComponent<ChuckSubInstance>();
         source = GetComponent<AudioSource>();
@@ -36,8 +39,8 @@ public class SphereAudioController : MonoBehaviour
 
     public void PlayCollideSound()
     {
-        Debug.Log("playing collide sound");
         var clip = collisionDrumHits[Random.Range(0, collisionDrumHits.Length)];
+        Debug.Log($"Playing collide sound: {clip.name}");
         var vol = Random.Range(minDrumVolume, maxDrumVolume);
         collideSource.PlayOneShot(clip, vol);
     }
@@ -53,7 +56,7 @@ public class SphereAudioController : MonoBehaviour
         chuck.SetRunning(true);
         chuck.RunCode(string.Format(@"
                 SndBuf textureBuf => dac;
-                me.dir() + ""texture01.wav"" => textureBuf.read;
+                me.dir() + ""{4}.wav"" => textureBuf.read;
 
                 // loop the clip
                 // based on casting doLoopAudioFile
@@ -71,7 +74,7 @@ public class SphereAudioController : MonoBehaviour
 
                 // pass time so that the file plays
                 textureBuf.length() / textureBuf.rate() => now;
-            ", rate, gain, maxAudioFilePos, System.Convert.ToInt32(doLoopAudioFile)));
+            ", rate, gain, maxAudioFilePos, System.Convert.ToInt32(doLoopAudioFile), textureClip.name));
         StartCoroutine(FadeAudio(FadeDirection.Up, DoNothingOnComplete));
     }
 

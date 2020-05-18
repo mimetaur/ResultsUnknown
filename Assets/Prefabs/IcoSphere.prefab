@@ -103,6 +103,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bd06852f829a24820afb63332ae01bc3, type: 3}
   - {fileID: 8300000, guid: 02bbcba3efb6b4a2f9cc52dac289541c, type: 3}
   - {fileID: 8300000, guid: 688a13db626aa4b20a8c45dc59100e35, type: 3}
+  textureClip: {fileID: 8300000, guid: 970f6e48bafd941f393dcfeadfe06a37, type: 3}
   baseRate: 1
   rateRangeDown: 0.4
   rateRangeUp: 1

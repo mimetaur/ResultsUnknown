@@ -172,7 +172,7 @@ public class SphereController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "ParentSphere")
+        if (other.tag == "ParentSphere" && !IsActive())
         {
             rotate.Active = false;
             rotateAround.IsActive = false;

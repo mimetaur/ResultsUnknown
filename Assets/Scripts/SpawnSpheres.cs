@@ -16,6 +16,10 @@ public class SpawnSpheres : MonoBehaviour
     public float minRotateAroundSpeed = 0.5f;
     public float maxRotateAroundSpeed = 2f;
 
+    public float spawnMaxHeight = 5f;
+    public float spawnMinHeight = 1.0f;
+    public float spawnCircleWidth = 5f;
+
     public float spawnAreaSize = 5.0f;
     public float proximityToParentThreshold = 1.0f;
     public float initialDelay = 2.0f;
@@ -88,11 +92,14 @@ public class SpawnSpheres : MonoBehaviour
 
         while (!isValidPosition)
         {
-            Vector3 randomVector = Random.insideUnitSphere * spawnAreaSize;
-            isValidPosition = CheckValidPosition(randomVector, sphereBounds);
+            float spawnHeight = Random.Range(spawnMinHeight, spawnMaxHeight);
+            Vector2 spawnCircle = Random.insideUnitCircle * spawnCircleWidth;
+            Vector3 randomPos = new Vector3(spawnCircle.x, spawnHeight, spawnCircle.y);
+
+            isValidPosition = CheckValidPosition(randomPos, sphereBounds);
             if (isValidPosition)
             {
-                validPosition = randomVector;
+                validPosition = randomPos;
             }
         }
         return validPosition;

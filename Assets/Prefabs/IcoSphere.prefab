@@ -108,7 +108,7 @@ MonoBehaviour:
   rateRangeUp: 1
   audioFadeDuration: 3
   maxAudioFilePos: 0.5
-  minAudioFileGain: 0.7
+  minAudioFileGain: 0.6
   maxAudioFileGain: 1
   doLoopAudioFile: 1
   minDrumVolume: 0.3

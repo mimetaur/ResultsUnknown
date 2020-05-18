@@ -1,5 +1,5 @@
-**Result Unknown** (2019)
+**Results Unknown** (2020)
 
 Long-running audiovisual simulation.
 
-One of a series of recent long-running audiovisual installation works I created in Unity.
+One of a series of long-running audiovisual installation works I created in Unity. Born out of a study in rotation and linear interpolation that was started in 2018. Remastered to use the high-definition render pipeline.

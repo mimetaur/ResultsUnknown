@@ -20,9 +20,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float initialDelay = 2.0f;
     [SerializeField] private float rate = 5.0f;
     [SerializeField] private float paddingAboveFloor = 0.05f;
+    [SerializeField] private bool doEndSpawning = true;
+    [SerializeField] private float spawnForDuration = 180f;
 
     private SphereManager sphereManager;
     private ParentController parent;
+    private bool isSpawning = true;
 
     public ParentController Parent { get => parent; private set => parent = value; }
     public float MinRotationSpeed { get => minRotationSpeed; private set => minRotationSpeed = value; }
@@ -51,11 +54,21 @@ public class SpawnManager : MonoBehaviour
         sphereManager = SphereManager.Instance;
         Parent = parentSphere.gameObject.GetComponent<ParentController>();
         InvokeRepeating("Spawn", initialDelay, rate);
+        if (doEndSpawning)
+        {
+            Invoke("EndSpawning", spawnForDuration);
+        }
+
+    }
+
+    private void EndSpawning()
+    {
+        isSpawning = false;
     }
 
     private void Spawn()
     {
-        if (sphereManager.CanSpawn())
+        if (sphereManager.CanSpawn() && isSpawning)
         {
             GameObject newSphere = Instantiate(spherePrefab);
             newSphere.transform.position = parentSphere.transform.position + GetValidSpawnPositionFor(newSphere);

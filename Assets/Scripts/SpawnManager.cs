@@ -64,6 +64,7 @@ public class SpawnManager : MonoBehaviour
     private void EndSpawning()
     {
         isSpawning = false;
+        sphereManager.StoppedSpawning();
     }
 
     private void Spawn()

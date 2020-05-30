@@ -8,6 +8,8 @@ public class SphereController : MonoBehaviour
     [SerializeField] private float glowFadeDuration = 1.0f;
     [SerializeField] private float glowMax = 0.5f;
     [SerializeField] private float shrinkFadeDuration = 3.0f;
+    [SerializeField] private float noNewCollisionDuration = 4.0f;
+    [SerializeField] private float deactivationDelayOnTouchFloor = 2.0f;
 
     private bool isDead = false;
     private bool isActive = false;
@@ -152,23 +154,29 @@ public class SphereController : MonoBehaviour
             rotate.Active = false;
             rotateAround.IsActive = false;
             HasCollided = true;
-            Deactivate();
-
             if (!HasTouchedFloor)
             {
                 sphereAudioController.PlayCollideSound();
             }
             HasTouchedFloor = true;
+            Invoke("DelayedDeactivate", deactivationDelayOnTouchFloor);
         }
         else if (col.gameObject.tag == "ChildSphere")
         {
-            if (IsActive())
+            if (IsActive() && !HasCollided)
             {
                 var newActiveSphere = col.gameObject.GetComponent<SphereController>();
                 sphereManager.ChangeActiveSphereTo(newActiveSphere);
             }
             HasCollided = true;
+            Invoke("ResetHasCollided", noNewCollisionDuration);
         }
+    }
+
+    void DelayedDeactivate()
+    {
+        Deactivate();
+        sphereManager.ChangeActiveSphere();
     }
 
     void OnTriggerEnter(Collider other)
@@ -181,5 +189,13 @@ public class SphereController : MonoBehaviour
             StartCoroutine(Shrink(KillOnShrinkComplete));
         }
         HasCollided = true;
+    }
+
+    void ResetHasCollided()
+    {
+        if (!HasTouchedFloor)
+        {
+            HasCollided = false;
+        }
     }
 }

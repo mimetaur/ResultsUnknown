@@ -33,6 +33,12 @@ public class SphereManager : MonoBehaviour
         spawnManager = SpawnManager.Instance;
     }
 
+    public void StoppedSpawning()
+    {
+        float timeUntilChangeActive = Random.Range(minTimeUntilChangeActive, maxTimeUntilChangeActive);
+        InvokeRepeating("ChangeActiveSphere", timeUntilChangeActive, timeUntilChangeActive);
+    }
+
     public void AddSphere(GameObject newSphere)
     {
         var s = newSphere.GetComponent<SphereController>();
@@ -106,7 +112,7 @@ public class SphereManager : MonoBehaviour
 
     }
 
-    private void ChangeActiveSphere()
+    public void ChangeActiveSphere()
     {
         if (spheres.Count > 1)
         {

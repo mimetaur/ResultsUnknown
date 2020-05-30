@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnSpheres : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject spherePrefab = null;
     [SerializeField] private Transform parentSphere = null;
@@ -24,17 +24,26 @@ public class SpawnSpheres : MonoBehaviour
     private SphereManager sphereManager;
     private ParentController parent;
 
-    public ParentController Parent { get => parent; set => parent = value; }
-    public float MinRotationSpeed { get => minRotationSpeed; set => minRotationSpeed = value; }
-    public float MaxRotationSpeed { get => maxRotationSpeed; set => maxRotationSpeed = value; }
-    public float MinSphereSize { get => minSphereSize; set => minSphereSize = value; }
-    public float MaxSphereSize { get => maxSphereSize; set => maxSphereSize = value; }
-    public float MinRotateAroundSpeed { get => minRotateAroundSpeed; set => minRotateAroundSpeed = value; }
-    public float MaxRotateAroundSpeed { get => maxRotateAroundSpeed; set => maxRotateAroundSpeed = value; }
+    public ParentController Parent { get => parent; private set => parent = value; }
+    public float MinRotationSpeed { get => minRotationSpeed; private set => minRotationSpeed = value; }
+    public float MaxRotationSpeed { get => maxRotationSpeed; private set => maxRotationSpeed = value; }
+    public float MinSphereSize { get => minSphereSize; private set => minSphereSize = value; }
+    public float MaxSphereSize { get => maxSphereSize; private set => maxSphereSize = value; }
+    public float MinRotateAroundSpeed { get => minRotateAroundSpeed; private set => minRotateAroundSpeed = value; }
+    public float MaxRotateAroundSpeed { get => maxRotateAroundSpeed; private set => maxRotateAroundSpeed = value; }
 
+    public static SpawnManager Instance { get; private set; }
     void Awake()
     {
-
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Start()

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpawnSpheres))]
 public class SphereManager : MonoBehaviour
 {
     [SerializeField] private int maxSpheres = 40;
@@ -11,12 +10,27 @@ public class SphereManager : MonoBehaviour
     [SerializeField] private float maxTimeUntilChangeActive = 10f;
 
     private List<SphereController> spheres = new List<SphereController>();
-    private SpawnSpheres spawner;
+    private SpawnManager spawnManager;
+
+    public static SphereManager Instance { get; private set; }
 
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void Start()
+    {
         Physics.gravity = new Vector3(0, gravityAmount, 0);
-        spawner = GetComponent<SpawnSpheres>();
+        spawnManager = SpawnManager.Instance;
     }
 
     public void AddSphere(GameObject newSphere)
@@ -40,7 +54,7 @@ public class SphereManager : MonoBehaviour
 
     public GameObject GetParentSphere()
     {
-        return spawner.Parent.gameObject;
+        return spawnManager.Parent.gameObject;
     }
 
 
@@ -56,17 +70,17 @@ public class SphereManager : MonoBehaviour
 
     public (float min, float max) GetSphereRotationSpeedRange()
     {
-        return (spawner.MinRotationSpeed, spawner.MaxRotationSpeed);
+        return (spawnManager.MinRotationSpeed, spawnManager.MaxRotationSpeed);
     }
 
     public (float min, float max) GetSphereSizeRange()
     {
-        return (spawner.MinSphereSize, spawner.MaxSphereSize);
+        return (spawnManager.MinSphereSize, spawnManager.MaxSphereSize);
     }
 
     public (float min, float max) GetSphereRotateAroundSpeedRange()
     {
-        return (spawner.MinRotateAroundSpeed, spawner.MaxRotateAroundSpeed);
+        return (spawnManager.MinRotateAroundSpeed, spawnManager.MaxRotateAroundSpeed);
     }
 
     private SphereController GetActiveSphere()

@@ -27,7 +27,7 @@ public class SphereController : MonoBehaviour
 
     void Awake()
     {
-        sphereManager = GameObject.Find("GameManager").GetComponent<SphereManager>();
+        sphereManager = SphereManager.Instance;
         sphereAudioController = GetComponent<SphereAudioController>();
         rb = GetComponent<Rigidbody>();
         rotate = GetComponent<Rotate>();

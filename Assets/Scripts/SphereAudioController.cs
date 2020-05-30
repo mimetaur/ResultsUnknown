@@ -39,7 +39,6 @@ public class SphereAudioController : MonoBehaviour
     public void PlayCollideSound()
     {
         var clip = collisionDrumHits[Random.Range(0, collisionDrumHits.Length)];
-        Debug.Log($"Playing collide sound: {clip.name}");
         var vol = Random.Range(minDrumVolume, maxDrumVolume);
         collideSource.PlayOneShot(clip, vol);
     }

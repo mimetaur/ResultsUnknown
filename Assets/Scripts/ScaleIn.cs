@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ScaleIn : MonoBehaviour
 {
-    public float endAmount = 0.75f;
-    public float duration = 2.0f;
+    [SerializeField] private float endAmount = 0.75f;
+    [SerializeField] private float duration = 2.0f;
 
     private Vector3 easeStart = Vector3.zero;
     private Vector3 easeEnd;
 
+    public float EndAmount { get => endAmount; set => endAmount = value; }
+
     void Start()
     {
-        easeEnd = new Vector3(endAmount, endAmount, endAmount);
+        easeEnd = new Vector3(EndAmount, EndAmount, EndAmount);
         transform.localScale = easeStart;
         StartCoroutine(SpawnAndGrow());
     }

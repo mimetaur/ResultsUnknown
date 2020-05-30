@@ -56,17 +56,17 @@ public class SphereManager : MonoBehaviour
 
     public (float min, float max) GetSphereRotationSpeedRange()
     {
-        return (spawner.minRotationSpeed, spawner.maxRotationSpeed);
+        return (spawner.MinRotationSpeed, spawner.MaxRotationSpeed);
     }
 
     public (float min, float max) GetSphereSizeRange()
     {
-        return (spawner.minSphereSize, spawner.maxSphereSize);
+        return (spawner.MinSphereSize, spawner.MaxSphereSize);
     }
 
     public (float min, float max) GetSphereRotateAroundSpeedRange()
     {
-        return (spawner.minRotateAroundSpeed, spawner.maxRotateAroundSpeed);
+        return (spawner.MinRotateAroundSpeed, spawner.MaxRotateAroundSpeed);
     }
 
     private SphereController GetActiveSphere()

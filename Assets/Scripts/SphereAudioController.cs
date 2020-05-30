@@ -6,27 +6,26 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(SphereController)), RequireComponent(typeof(ChuckSubInstance)), RequireComponent(typeof(AudioSource))]
 public class SphereAudioController : MonoBehaviour
 {
+    [SerializeField] private AudioClip[] collisionDrumHits = null;
+    [SerializeField] private AudioClip textureClip = null;
+    [SerializeField] private float baseRate = 1.0f;
+    [SerializeField] private float rateRangeDown = 0.5f;
+    [SerializeField] private float rateRangeUp = 1.0f;
+    [SerializeField] private float audioFadeDuration = 3.0f;
+    [SerializeField] private float maxAudioFilePos = 0.5f;
+    [SerializeField] private float minAudioFileGain = 0.7f;
+    [SerializeField] private float maxAudioFileGain = 1.0f;
+    [SerializeField] private bool doLoopAudioFile = true;
+    [SerializeField] private float minDrumVolume = 0.1f;
+    [SerializeField] private float maxDrumVolume = 0.3f;
+
     private SphereController sc;
     private ChuckSubInstance chuck;
     private AudioSource source;
     private AudioSource collideSource;
-
-    public AudioClip[] collisionDrumHits;
-    public AudioClip textureClip;
-
-    public float baseRate = 1.0f;
-    public float rateRangeDown = 0.5f;
-    public float rateRangeUp = 1.0f;
-    public float audioFadeDuration = 3.0f;
-    public float maxAudioFilePos = 0.5f;
-    public float minAudioFileGain = 0.7f;
-    public float maxAudioFileGain = 1.0f;
-    public bool doLoopAudioFile = true;
-    public float minDrumVolume = 0.1f;
-    public float maxDrumVolume = 0.3f;
-
     private float minVolume = 0f;
     private float maxVolume = 1f;
+
 
     void Awake()
     {

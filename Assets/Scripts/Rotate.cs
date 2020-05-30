@@ -5,19 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Rotate : MonoBehaviour
 {
-    [Range(0, 360)]
-    public float angle;
+    [Range(0, 360)] [SerializeField] private float angle;
+    [Range(0, 1.0f)] [SerializeField] private float slowdownFactor = 5f;
+    [SerializeField] private bool counterClockWise = false;
+    [SerializeField] private bool usePhysicsRotation = true;
 
-    [Range(0, 1.0f)]
-    public float slowdownFactor = 5f;
-
-    public bool counterClockWise = false;
-    public bool usePhysicsRotation = true;
     private bool active = true;
-
     private Rigidbody myRigidbody;
 
     public bool Active { get => active; set => active = value; }
+    public float Angle { get => angle; set => angle = value; }
+    public bool CounterClockWise { get => counterClockWise; set => counterClockWise = value; }
 
     void Start()
     {
@@ -47,9 +45,9 @@ public class Rotate : MonoBehaviour
     void DoPhysicsRotation()
     {
         Vector3 axis = transform.forward;
-        if (counterClockWise) axis *= -1;
+        if (CounterClockWise) axis *= -1;
 
-        float angleThisFrame = angle * Time.deltaTime * slowdownFactor;
+        float angleThisFrame = Angle * Time.deltaTime * slowdownFactor;
         Vector3 torque = axis * angleThisFrame;
         myRigidbody.AddTorque(torque);
     }
@@ -57,9 +55,9 @@ public class Rotate : MonoBehaviour
     void DoRotation()
     {
         Vector3 axis = transform.forward;
-        if (counterClockWise) axis *= -1;
+        if (CounterClockWise) axis *= -1;
 
-        float angleThisFrame = angle * Time.deltaTime;
+        float angleThisFrame = Angle * Time.deltaTime;
         Quaternion rotation = Quaternion.AngleAxis(angleThisFrame, axis);
 
 

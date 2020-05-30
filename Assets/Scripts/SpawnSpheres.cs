@@ -5,31 +5,33 @@ using UnityEngine;
 [RequireComponent(typeof(SphereManager))]
 public class SpawnSpheres : MonoBehaviour
 {
-    public GameObject spherePrefab;
-    public Transform parentSphere;
-    public Transform floor;
-
-    public float minRotationSpeed = 10.0f;
-    public float maxRotationSpeed = 40.0f;
-    public float minSphereSize = 0.5f;
-    public float maxSphereSize = 1.0f;
-    public float minRotateAroundSpeed = 0.5f;
-    public float maxRotateAroundSpeed = 2f;
-
-    public float spawnMaxHeight = 5f;
-    public float spawnMinHeight = 1.0f;
-    public float spawnCircleWidth = 5f;
-
-    public float spawnAreaSize = 5.0f;
-    public float proximityToParentThreshold = 1.0f;
-    public float initialDelay = 2.0f;
-    public float rate = 5.0f;
-    public float paddingAboveFloor = 0.05f;
+    [SerializeField] private GameObject spherePrefab = null;
+    [SerializeField] private Transform parentSphere = null;
+    [SerializeField] private Transform floor = null;
+    [SerializeField] private float minRotationSpeed = 10.0f;
+    [SerializeField] private float maxRotationSpeed = 40.0f;
+    [SerializeField] private float minSphereSize = 0.5f;
+    [SerializeField] private float maxSphereSize = 1.0f;
+    [SerializeField] private float minRotateAroundSpeed = 0.5f;
+    [SerializeField] private float maxRotateAroundSpeed = 2f;
+    [SerializeField] private float spawnMaxHeight = 5f;
+    [SerializeField] private float spawnMinHeight = 1.0f;
+    [SerializeField] private float spawnCircleWidth = 5f;
+    [SerializeField] private float proximityToParentThreshold = 1.0f;
+    [SerializeField] private float initialDelay = 2.0f;
+    [SerializeField] private float rate = 5.0f;
+    [SerializeField] private float paddingAboveFloor = 0.05f;
 
     private SphereManager sphereManager;
     private ParentController parent;
 
     public ParentController Parent { get => parent; set => parent = value; }
+    public float MinRotationSpeed { get => minRotationSpeed; set => minRotationSpeed = value; }
+    public float MaxRotationSpeed { get => maxRotationSpeed; set => maxRotationSpeed = value; }
+    public float MinSphereSize { get => minSphereSize; set => minSphereSize = value; }
+    public float MaxSphereSize { get => maxSphereSize; set => maxSphereSize = value; }
+    public float MinRotateAroundSpeed { get => minRotateAroundSpeed; set => minRotateAroundSpeed = value; }
+    public float MaxRotateAroundSpeed { get => maxRotateAroundSpeed; set => maxRotateAroundSpeed = value; }
 
     void Start()
     {
@@ -47,15 +49,15 @@ public class SpawnSpheres : MonoBehaviour
             transform.localScale = Vector3.zero;
 
             var rotate = newSphere.GetComponent<Rotate>();
-            rotate.angle = GetRandomRotation();
-            rotate.counterClockWise |= Random.value > 0.5f;
+            rotate.Angle = GetRandomRotation();
+            rotate.CounterClockWise |= Random.value > 0.5f;
 
             var scaleIn = newSphere.GetComponent<ScaleIn>();
-            scaleIn.endAmount = GetRandomScale();
+            scaleIn.EndAmount = GetRandomScale();
 
             var rotateAround = newSphere.GetComponent<RotateAround>();
-            rotateAround.target = parentSphere;
-            rotateAround.angle = GetRandomRotateAroundSpeed();
+            rotateAround.Target = parentSphere;
+            rotateAround.Angle = GetRandomRotateAroundSpeed();
 
             sphereManager.AddSphere(newSphere);
             Parent.StartGrowing();
@@ -64,17 +66,17 @@ public class SpawnSpheres : MonoBehaviour
 
     private float GetRandomRotateAroundSpeed()
     {
-        return Random.Range(minRotateAroundSpeed, maxRotateAroundSpeed);
+        return Random.Range(MinRotateAroundSpeed, MaxRotateAroundSpeed);
     }
 
     private float GetRandomRotation()
     {
-        return Random.Range(minRotationSpeed, maxRotationSpeed);
+        return Random.Range(MinRotationSpeed, MaxRotationSpeed);
     }
 
     private float GetRandomScale()
     {
-        return Random.Range(minSphereSize, maxSphereSize);
+        return Random.Range(MinSphereSize, MaxSphereSize);
     }
 
     private bool CheckValidPosition(Vector3 pos, Bounds bounds)

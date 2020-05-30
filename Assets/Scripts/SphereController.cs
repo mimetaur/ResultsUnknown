@@ -5,9 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(SphereAudioController)), RequireComponent(typeof(Rotate)), RequireComponent(typeof(RotateAround)), RequireComponent(typeof(ScaleIn)), RequireComponent(typeof(Rigidbody))]
 public class SphereController : MonoBehaviour
 {
-    public float glowFadeDuration = 1.0f;
-    public float glowMax = 0.5f;
-    public float shrinkFadeDuration = 3.0f;
+    [SerializeField] private float glowFadeDuration = 1.0f;
+    [SerializeField] private float glowMax = 0.5f;
+    [SerializeField] private float shrinkFadeDuration = 3.0f;
 
     private bool isDead = false;
     private bool isActive = false;
@@ -77,7 +77,7 @@ public class SphereController : MonoBehaviour
     public float GetSphereRotationNormalized()
     {
         var range = sphereManager.GetSphereRotationSpeedRange();
-        return GameUtils.Map(rotate.angle, range.min, range.max, 0f, 1f);
+        return GameUtils.Map(rotate.Angle, range.min, range.max, 0f, 1f);
     }
 
     public float GetSphereSizeNormalized()
@@ -90,7 +90,7 @@ public class SphereController : MonoBehaviour
     public float GetSphereRotateAroundSpeedNormalized()
     {
         var range = sphereManager.GetSphereRotateAroundSpeedRange();
-        return GameUtils.Map(rotateAround.angle, range.min, range.max, 0f, 1f);
+        return GameUtils.Map(rotateAround.Angle, range.min, range.max, 0f, 1f);
     }
 
     private IEnumerator FadeGlow(FadeDirection direction)

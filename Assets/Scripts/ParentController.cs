@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ParentController : MonoBehaviour
 {
-    public float growAmount = 0.1f;
-    public float growDuration = 1.0f;
+    [SerializeField] private float growAmount = 0.1f;
+    [SerializeField] private float growDuration = 1.0f;
 
     public void StartGrowing()
     {

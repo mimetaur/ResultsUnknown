@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(SpawnSpheres))]
 public class SphereManager : MonoBehaviour
 {
-    public int maxSpheres = 40;
-    public float sphereChangeSpeed = 10.0f;
-    public float gravityAmount = -0.1f;
-    public float minTimeUntilChangeActive = 3f;
-    public float maxTimeUntilChangeActive = 10f;
+    [SerializeField] private int maxSpheres = 40;
+    [SerializeField] private float gravityAmount = -0.1f;
+    [SerializeField] private float minTimeUntilChangeActive = 3f;
+    [SerializeField] private float maxTimeUntilChangeActive = 10f;
+
     private List<SphereController> spheres = new List<SphereController>();
     private SpawnSpheres spawner;
 

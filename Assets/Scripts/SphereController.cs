@@ -21,9 +21,9 @@ public class SphereController : MonoBehaviour
     private SphereManager sphereManager;
     private Material material;
 
-    public bool IsDead { get => isDead; set => isDead = value; }
-    public bool HasTouchedFloor { get => hasTouchedFloor; set => hasTouchedFloor = value; }
-    public bool HasCollided { get => hasCollided; set => hasCollided = value; }
+    public bool IsDead { get => isDead; private set => isDead = value; }
+    public bool HasTouchedFloor { get => hasTouchedFloor; private set => hasTouchedFloor = value; }
+    public bool HasCollided { get => hasCollided; private set => hasCollided = value; }
 
     void Awake()
     {

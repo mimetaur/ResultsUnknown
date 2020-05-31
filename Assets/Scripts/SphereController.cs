@@ -10,6 +10,7 @@ public class SphereController : MonoBehaviour
     [SerializeField] private float shrinkFadeDuration = 3.0f;
     [SerializeField] private float noNewCollisionDuration = 4.0f;
     [SerializeField] private float deactivationDelayOnTouchFloor = 2.0f;
+    [SerializeField] private bool switchActiveOnCollision = false;
 
     private bool isDead = false;
     private bool isActive = false;
@@ -163,7 +164,7 @@ public class SphereController : MonoBehaviour
         }
         else if (col.gameObject.tag == "ChildSphere")
         {
-            if (IsActive() && !HasCollided)
+            if (IsActive() && switchActiveOnCollision)
             {
                 var newActiveSphere = col.gameObject.GetComponent<SphereController>();
                 sphereManager.ChangeActiveSphereTo(newActiveSphere);
